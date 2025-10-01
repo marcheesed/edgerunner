@@ -10,5 +10,9 @@
     {
         "task": "100% crossworlds",
         "done": false
+    },
+    {
+        "task": "finish this site.",
+        "done": false
     }
 ]

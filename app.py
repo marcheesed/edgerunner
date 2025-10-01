@@ -72,11 +72,12 @@ def load_tarot():
     if os.path.exists(TAROT_FILE):
         with open(TAROT_FILE, "r") as f:
             return json.load(f)
-    return {"date": None, "card": None}
+    return []  # start with an empty list
 
-def save_tarot(tarot):
+def save_tarot(tarot_list):
     with open(TAROT_FILE, "w") as f:
-        json.dump(tarot, f, indent=4)
+        json.dump(tarot_list, f, indent=4)
+
 
 def load_last_updated():
     if os.path.exists(LAST_UPDATED_FILE):
@@ -114,12 +115,13 @@ def index():
                 todos.append({"task": task, "done": False})
                 save_todos(todos)
 
-
         elif form_type == "tarot" and session.get('password'):
             card = request.form.get("card")
             if card:
-                tarot = {"date": datetime.now().strftime("%Y-%m-%d"), "card": card}
-                save_tarot(tarot)
+                tarot_list = load_tarot()
+                tarot_list.append({"date": datetime.now().strftime("%Y-%m-%d"), "card": card})
+                save_tarot(tarot_list)
+
 
         elif form_type == "feeling" and session.get('password'):
             character = request.form.get("character")
@@ -143,14 +145,17 @@ def index():
         pass
 
     quote = random.choice(quotes_list)
+    tarot_history = load_tarot()
+    latest_tarot = tarot_history[-1] if tarot_history else None
 
     return render_template(
         "index.html",
+        tarot_history=tarot_history,
+        tarot=latest_tarot,
         time=now,
         weather=weather,
         quote=quote,
         todos=todos,
-        tarot=tarot,
         feeling=feeling,
         quotes=quotes_list,
         last_updated=last_updated,
@@ -256,9 +261,11 @@ def set_tarot():
         return redirect(url_for("index"))
     card = request.form.get("card")
     if card:
-        tarot = {"date": datetime.now().strftime("%Y-%m-%d"), "card": card}
-        save_tarot(tarot)
+        tarot_list = load_tarot()
+        tarot_list.append({"date": datetime.now().strftime("%Y-%m-%d"), "card": card})
+        save_tarot(tarot_list)
     return redirect(url_for("index"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

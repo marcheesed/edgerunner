@@ -1,13 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <title>dashboard</title>
+<!-- this is the styling for the page-->
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<link rel="icon" href="https://file.garden/aBi0tvXzESnPXzr_/tumblr_99deeef45c48c7ca49c4eefe5efc457b_fe825bca_75.webp" type="image/png">
+<!-- this is the icon -->
+<link rel="icon" href="https://file.garden/aBi0tvXzESnPXzr_/tumblr_051dccd31c15cc361f0f97ee3a647c1c_dcf1f018_250.png" type="image/png">
 </head>
 <body>
+
+<!-- this is heavily python backended though contains some javascript and html/css -->
+<!-- i made it for fun in a day and will likely keep developing this -->
+<!-- it is free to use and on github. yay -->
+
+
+
+<!-- this is where the full container is init'd using the css library -->
 <div class="window" style="max-width: 600px; margin: 40px auto;">
   <div class="title-bar">
     <div class="title-bar-text">my dashboard</div>
@@ -18,6 +28,7 @@
     </div>
   </div>
 
+<!-- this is where the window body begins -->
 
 <div class="window-body">
   <section class="group-box" style="text-align: center;">
@@ -28,14 +39,15 @@
   </section>
 
   <hr>
-
-
+<!-- text -->
 {% if tarot.card or feeling.character or last_updated.date %}
       <p>likely a temporary hub to remind me to do a lot of this stuff.</p>
       <p>my name is marcy or angel or whatever you wanna call me, it/they, 19yo, knowledgeable in html/css & python.  </p>
       <p>i am not volunteering for anything unless i state otherwise, <a href="https://raincandy.lol/portfolio">check more here.</a>  </p>
       <p>i am currently undergoing multiple mental health issues, personal irl situations, etc. all bad things happening at once. i'm trying to be patient and do my best, but if i snap or act unusually, i'm very sorry.</p>
       <p>despite this, i try to be friendly especially to others in bad situations. <strong>do not flirt with me if you are under 18</strong></p>
+
+<!-- this is where the output for the tarot card, character feeling and last update go -->
     {% if tarot.card %}
       <p><strong>today's tarot card:</strong> {{ tarot.card }} ----
     {% endif %}
@@ -43,7 +55,7 @@
       <strong>today i feel like:</strong> {{ feeling.character }} ----
     {% endif %}
     {% if last_updated.date %}
-      last updated on: <strong>{{ last_updated.date }}</strong></p>
+      <strong>last updated on:</strong> {{ last_updated.date }}</p>
     {% endif %}
 {% endif %}
   </section>
@@ -51,14 +63,15 @@
   <hr>
 
   <section class="group-box">
-    <h3>to-do list</h3>
+    <h4>to-do list</h4>
+<!-- this is the add task forum -->
 <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center; margin-bottom:10px;">
   <form method="post" style="display:flex; gap:5px; align-items:center;">
     <input id="task" name="task" type="text" placeholder="new task" style="width:200px; min-width:150px; max-width:300px;">
     <input type="hidden" name="form_type" value="todo">
     <button type="submit" class="btn">add task</button>
   </form>
-  
+<!-- this gives you the option to enter your password, and shows logout if you're logged in -->
 {% if not session.get('password') %}
   <button type="button" id="passwordBtn" class="btn" style="padding: 8px 15px; min-width: 80px;">enter password</button>
 {% else %}
@@ -67,6 +80,7 @@
   </form>
   {% endif %}
 
+<!-- this is an accessibility feature and turns off the background -->
 <form action="" method="post">
   <button type="submit" name="action" value="toggle-bg" data-theme-toggle aria-label="turn off background giff" style="padding: 8px 15px; min-width: 80px;">
     turn off background gif
@@ -77,7 +91,7 @@
 </div>
 <hr>
     </div>
-
+<!-- this is where we init the buttons for tasks -->
     <ul style="list-style:none; padding-left:0; margin-top:10px; max-width:500px; margin-left:auto; margin-right:auto;">
       {% for todo in todos %}
       <li style="margin:6px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:5px;">
@@ -96,15 +110,16 @@
   </section>
 
   <hr>
-
+<!-- this means only a user who is logged in can see this part -->
   {% if session.get('password') %}
 <details>
-  <summary style="cursor:pointer; font-weight:bold; text-align:left;">edit quote roster</summary>
+  <!-- editing quotes -->
+  <summary style="cursor:pointer; font-weight:bold; text-align:left; padding-left: 10px;">edit quote roster</summary>
   <div style="display:flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
     {% for q in quotes %}
     <form action="{{ url_for('quotes') }}" method="post" style="display:flex; gap:5px; flex: 1 0 200px; min-width: 200px;">
       <input type="hidden" name="index" value="{{ loop.index0 }}">
-      <input type="text" name="quote" value="{{ q }}" style="min-width: 130px; max-width: 180px;">
+      <input type="text" name="quote" value="{{ q }}" style="min-width: 135px; max-width: 180px;">
       <button name="action" value="edit">save</button>
       <button name="action" value="delete">delete</button>
     </form>
@@ -118,7 +133,8 @@
 
 <hr>
 <details>
-  <summary style="cursor:pointer; font-weight:bold; text-align:right;">edit tarot card, character feeling & last updated</summary>
+  <!-- editing tarot, character feeling and last updated -->
+  <summary style="cursor:pointer; font-weight:bold; text-align:right; padding-right: 10px;">edit tarot card, character feeling & last updated</summary>
   <section class="group-box" style="margin-top:10px;">
     <div style="display:flex; flex-direction: column; gap: 10px; align-items: flex-end;">
       <form method="post" style="display:flex; gap:5px; align-items:center; flex-wrap: wrap;">
@@ -144,7 +160,24 @@
 <hr>
 {% endif %}
 
-  <div class="social-buttons">
+<!-- this is the tarot history -->
+  <div style="display:flex">
+  <div style="text-align:left; padding-left: 10px;">
+<h4>tarot history</h4>
+<ul>
+  {% for entry in tarot_history %}
+    <li>{{ entry.date }} — {{ entry.card }}</li>
+  {% endfor %}
+</ul>
+</div>
+<hr>
+<img src="https://file.garden/aBi0tvXzESnPXzr_/db7903c43d1659892f9e7eb985ca92ec.jpg" style="width: 30%; border-radius: 5px; margin-right: 10px;">
+</div>
+
+<hr>
+
+<!-- this is the bottom footer with social media buttons -->
+  <div class="social-buttons" style="padding-bottom: 10px;">
     <form action="https://x.com/angelicArchit" method="get" target="_blank">
       <button type="submit" class="btn">twitter</button>
     </form>
@@ -164,6 +197,9 @@
 </div>
 </div>
 
+
+<!-- this is the password prompt -->
+
 <div id="modaloverlay"></div>
 <div id="passwordmodal" class="window">
   <div class="title-bar">
@@ -181,6 +217,7 @@
 </div>
 
 <script>
+  // should be an auto refresh for the time along with theme for the background gif toggle.
 async function updateStatus() {
   try {
     const response = await fetch("/api/status");
