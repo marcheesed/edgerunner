@@ -30,7 +30,6 @@
     <section class="group-box" style="text-align:center;">
       <h3>{{ message }}</h3>
 
-
 <div class="extras-container">
   <div class="extras-window notepad-window" id="notepad">
     <div class="notepad-title-bar">
@@ -45,7 +44,8 @@
     </div>
   </div>
 
-  <div class="player" style="margin-top: 50px;">
+  <div class="right-wrap">
+  <div class="player">
     <div class="player-window">
       <div class="player-title-bar">
         <div class="player-title-bar-text">
@@ -104,8 +104,16 @@
         </div>
       </div>
     </div>
+
+      <img src="https://file.garden/aBi0tvXzESnPXzr_/tumblr_p5jmzwod2G1s6158vo6_1280.png" style="width:100%; height: 90px; margin-top: 5px;">
   </div>
+  </div>
+
+
+
 </div>
+
+
 <hr>
 
 
@@ -132,6 +140,9 @@
     <p>i do not like romance, yet i do at the same time. the concept is wonderful, yet the execution horrible. sometimes i will mistake platonic things for romantic / come off as flirtatious when i do not mean to, please tell me if you are uncomfortable or if what youre saying has romantic intentions, i am bad with people!</p>
     <p>i love listening to music more than the ordinary person. seriously, please talk to me about it!! all genres!!! i genre hop!</p>
     <p>ummm this will probably change alot! wip wip</p>
+    <div style="display:flex;flex-direction: row;">
+    <img src="https://file.garden/aBi0tvXzESnPXzr_/Metalwag.webp" style="width:45px;height: 55px;padding-left: 10px;"><p>i do not like to get into arguments or discourse.. if someone has an issue with me they should dm me directly and we can work it out. i don't bite!</p>
+    </div>
 </for>
 
 
@@ -164,6 +175,7 @@
 <form action="{{ url_for('index') }}">
   <button class="btn" style="padding: 7px 19px; min-width: 80px;">back to dashboard</button>
 </form>
+
 </div>
   </div>
       {% if session.get('password') %}

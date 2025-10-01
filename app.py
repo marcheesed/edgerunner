@@ -187,6 +187,18 @@ def index():
         last_updated=last_updated,
         sections=sections
     )
+@app.route("/art")
+def art():
+    return render_template("art.html")  # <-- make an art.html template
+
+@app.route("/links")
+def links():
+    return render_template("links.html")
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
 
 @app.route("/set_sections", methods=["POST"])
 def set_sections():

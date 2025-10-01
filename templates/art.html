@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>art archive</title>
+  <link rel="stylesheet" href="https://unpkg.com/98.css" />
+  <link rel="icon" href="https://file.garden/aBi0tvXzESnPXzr_/tumblr_051dccd31c15cc361f0f97ee3a647c1c_dcf1f018_250.png" type="image/png">
+  <style>
+    body {
+      background: #001111;
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .window {
+      width: 1050px;
+      max-width: 100%;
+    }
+
+    .window-body {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      padding: 10px;
+    }
+
+    .window-body img {
+      width: 100%;
+      height: auto;
+      border: 2px solid #ccc;
+      object-fit: cover;
+      transition: transform 0.5s, border-color 0.2s;
+    }
+
+    .window-body img:hover {
+      transform: scale(1.25);
+      border-color: #07119c;
+    }
+
+    .window-body p {
+      grid-column: 1 / -1; /* full width paragraph */
+      margin-bottom: 10px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+    }
+
+    .button-container .btn {
+      padding: 7px 19px;
+      min-width: 120px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="window" style="width: 1050px">
+  <div class="title-bar">
+    <div class="title-bar-text">art archive</div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+<div class="window-body">
+
+<form action="{{ url_for('index') }}">
+  <button class="btn" style="padding: 7px 19px; min-width: 80px;">back to dashboard</button>
+</form>
+  <p>trying to keep it more updated than my site</p>
+
+  <!-- Use a class instead of inline styles -->
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/ariesandlethe.jpg" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/trollsona.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/hi%20chud.jpg" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/heymai.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/labby.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/dragon.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/karina.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/pathetic.jpg" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/stupid.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/blaah.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/twilight.jpg" alt="">
+  <img src="https://file.garden/aBi0tvXzESnPXzr_/IMG_0845.PNG" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/kar%202.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/adults.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/bonbon.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/kids.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/two.png" alt="">
+  <img src="https://file.garden/aBi0tvXzESnPXzr_/IMG_0846.PNG" alt="">
+  <img src="https://raincandy.lol/images/art/IMG_0806.PNG" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/high%20pony.png" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/aigis.png" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/himai.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/yaozhu.png" alt="">
+  <img src="https://queenofvenus.neocities.org/TAMAGOTCHIS/ohno/blackpanther/forgot.png" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/chibi.png" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/syses.png" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/hiii%20akane.png" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/bunbun.png" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/emb.jpg" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/Untitled606.png" alt="">
+  <img src="https://raincandy.lol/images/art/Untitled606_20240501152754.webp" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/thing.png" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/butcher.jpg" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/comic.png" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/rgb.png" alt="">
+  <img src="https://queenofvenus.neocities.org/architect/tama.png" alt="">
+  <img src="https://raincandy.lol/images/art/Untitled_Artwork%20(21).png" alt="">
+  <img src="https://raincandy.lol/images/art/Untitled_Artwork%20(23).png" alt="">
+  <img src="https://raincandy.lol/images/art/Untitled_Artwork%20(3).gif" alt="">
+  <img src="https://raincandy.lol/images/art/IMG_0783.PNG" alt="">
+  <img src="https://raincandy.lol/images/art/oie_7aSPYTNlFBBz.png" alt="">
+  <img src="https://raincandy.lol/images/art/Untitled_Artwork%20(16).png" alt="">
+  <img src="https://file.garden/aBi0tvXzESnPXzr_/IMG_0847.PNG" alt="">
+  <img src="https://raincandy.lol/images/art/Untitled_Artwork%20(25).png" alt="">
+  <img src="https://raincandy.lol/images/art/IMG_0714.png" alt="">
+  <img src="https://raincandy.lol/images/art/Untitled_Artwork.webp" alt="">
+  <img src="https://raincandy.lol/images/art/image%20(2).png" alt="">
+  <img src="https://raincandy.lol/images/art/IMG_0685.png" alt="">
+  <img src="https://raincandy.lol/images/art/IMG_0717%20(1).webp" alt="">
+  <img src="https://raincandy.lol/images/art/IMG_0696.webp" alt="">
+  <img src="https://raincandy.lol/images/art/404.webp" alt="">
+  <img src="https://raincandy.lol/images/art/403.webp" alt="">
+  <img src="https://raincandy.lol/images/art/IMG_0807.PNG" alt="">
+  <img src="https://raincandy.lol/images/art/Untitled_Artwork%20(26).png" alt="">
+  <img src="https://raincandy.lol/images/art/IMG_0808.PNG" alt="">
+  <img src="https://raincandy.lol/images/art/IMG_0767.webp" alt="">
+</div>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>404 — Page Not Found</title>
+  <!-- Include 98.css -->
+  <link rel="stylesheet" href="https://unpkg.com/98.css" />
+  <link rel="icon" href="https://file.garden/aBi0tvXzESnPXzr_/tumblr_051dccd31c15cc361f0f97ee3a647c1c_dcf1f018_250.png" type="image/png">
+  <style>
+    body {
+      background: #001111; /* or whatever you prefer */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="window" style="width: 400px">
+  <div class="title-bar">
+    <div class="title-bar-text">A Window With A Status Bar</div>
+  </div>
+  <div class="window-body" style="display: flex; align-items: center; gap: 20px;">
+    <img src="https://file.garden/aBi0tvXzESnPXzr_/c3415bddf56a271ae31432848cf9f819.jpg" 
+         alt="404 image" style="max-width: 200px; height: auto;">
+    <div class="text">
+      <h1>404</h1>
+      <p>oops! that page doesn't exist yet.<br> how'd you even get here?</p>
+      <p style="text-align:center"><a href="{{ url_for('index') }}">go back</a></p>
+    </div>
+  </div>
+          <div class="status-bar" style="width:100%">
+    <p class="status-bar-field">Press F1 for help</p>
+    <p class="status-bar-field">Slide 1</p>
+    <p class="status-bar-field">CPU Usage: 14%</p>
+  </div>
+  </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>links hub</title>
+  <link rel="stylesheet" href="https://unpkg.com/98.css" />
+  <link rel="icon" href="https://file.garden/aBi0tvXzESnPXzr_/tumblr_051dccd31c15cc361f0f97ee3a647c1c_dcf1f018_250.png" type="image/png">
+  <style>
+    body {
+      background: #001111;
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+ 
+
+
+<div class="window" style="width: 500px">
+  <div class="title-bar">
+    <div class="title-bar-text">links hub</div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+<div class="window-body">
+
+
+  <menu role="tablist">
+    <li role="tab" aria-selected="true"><a href="">Desktop</a></li>
+    <li role="tab"><a href="">My computer</a></li>
+    <li role="tab"><a href="">Control panel</a></li>
+    <li role="tab"><a href="">Devices manager</a></li>
+    <li role="tab"><a href="">Hardware profiles</a></li>
+    <li role="tab"><a href="">Performance</a></li>
+  </menu>
+  <div class="window" role="tabpanel">
+    <div class="window-body">
+        <h4>marcy's links</h4>
+      <ul>
+  <li><a href="https://x.com/angelicArchit">twitter</a></li>
+  <li><a href="https://www.tumblr.com/uraincandy">tumblr</a></li>
+  <li><a href="https://discordid.netlify.app/?id=410137614591459328">discord</a></li>
+  <li><a href="https://github.com/marcheesed/edgerunner">github</a></li>
+  <li><a href="https://www.roblox.com/users/102748503/profile">roblox</a></li>
+  <li><a href="https://bundlrs.cc/gumi">bundlrs</a></li>
+  <li><a href="https://pronouns.cc/@weathergirl">prns.cc</a></li>
+  <li><a href="https://open.spotify.com/user/zq9nij9t0jadfw8a2r6qx51oy?si=30ac7ef492c04883">spotify</a></li>
+  <li><a href="https://www.last.fm/user/BUG223">last.fm</a></li>
+  <li><a href="https://raincandy.lol">main website</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+
+      <div style="display:flex;justify-content: space-evenly;">
+<form action="{{ url_for('index') }}">
+  <button class="btn" style="padding: 7px 19px; min-width: 80px;">back to dashboard</button>
+</form>
+
+</div>
+
+</div>
+
+
+</body>
+</html>

@@ -87,10 +87,6 @@
     turn off background gif
   </button>
 </form>
-
-<form action="{{ url_for('extras') }}" method="get">
-  <button type="submit" class="btn" style="padding:6px 15px">extras page</button>
-</form>
 </div>
 
 
@@ -182,17 +178,14 @@
 
 <!-- this is the bottom footer with social media buttons -->
   <div class="social-buttons" style="padding-bottom: 10px;">
-    <form action="https://x.com/angelicArchit" method="get" target="_blank">
-      <button type="submit" class="btn">twitter</button>
+    <form action="{{ url_for('extras') }}" method="get" target="_blank">
+      <button type="submit" class="btn">funky extras</button>
     </form>
-    <form action="https://github.com/marcheesed" method="get" target="_blank">
-      <button type="submit" class="btn">github</button>
+    <form action="{{ url_for('art') }}" method="get" target="_blank">
+      <button type="submit" class="btn">art archive</button>
     </form>
-    <form action="https://pastry.diy/lucy" method="get" target="_blank">
-      <button type="submit" class="btn">pastry.diy</button>
-    </form>
-    <form action="https://tumblr.com/uraincandy" method="get" target="_blank">
-      <button type="submit" class="btn">tumblr</button>
+    <form action="{{ url_for('links') }}" method="get" target="_blank">
+      <button type="submit" class="btn">links hub</button>
     </form>
     <form action="https://raincandy.lol" method="get" target="_blank">
       <button type="submit" class="btn">main website</button>
