@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    background: url("https://file.garden/aBi0tvXzESnPXzr_/tumblr_9dfe98f9048343554fc179782ea63bbf_d64953fc_250.webp");
+    color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    cursor: url('https://file.garden/aBi0tvXzESnPXzr_/cur952.ani'), auto;
+}
+
+            a:hover {
+                cursor: url('https://file.garden/aBi0tvXzESnPXzr_/cur952.ani'), auto;
+            }
+            * {
+                cursor: url('https://file.garden/aBi0tvXzESnPXzr_/cur952.ani'), auto;
+            }
+
+.container {
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+blockquote {
+    font-style: italic;
+    margin: 20px 0;
+    color: #555;
+}
+
+form input {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    padding: 8px 12px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    color:black;
+}
+
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 8px 0;
+}
+
+.done {
+    text-decoration: line-through;
+    color: gray;
+}
+
+a {
+    margin-left: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}

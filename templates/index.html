@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>dashboard</title>
+<link rel="stylesheet" href="https://unpkg.com/98.css" />
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="icon" href="https://file.garden/aBi0tvXzESnPXzr_/tumblr_99deeef45c48c7ca49c4eefe5efc457b_fe825bca_75.webp" type="image/png">
+<style>
+#modaloverlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+#passwordmodal { display: none; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -30%); max-width: 300px; z-index: 1000; }
+.inline-btn { margin-left: 5px; }
+.social-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.social-buttons form { flex: 1; max-width: 100px; }
+.social-buttons button { width: 100%; }
+img:hover { animation: shake 0.5s; animation-iteration-count: infinite; }
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+
+.close {
+    margin-left: 2px;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='8' height='7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0h2v1h1v1h2V1h1V0h2v1H7v1H6v1H5v1h1v1h1v1h1v1H6V6H5V5H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0V0z' fill='%23000'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: top 3px left 4px;
+}
+
+.maximize {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='9' height='9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9 0H0v9h9V0zM8 2H1v6h7V2z' fill='%23000'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: top 2px left 3px;
+}
+
+.minimize {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='6' height='2' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M0 0h6v2H0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: bottom 3px left 4px;
+}
+</style>
+</head>
+<body>
+<div class="window" style="max-width: 600px; margin: 40px auto;">
+  <div class="title-bar">
+    <div class="title-bar-text">my dashboard</div>
+    <div class="title-bar-controls">
+      <button class="minimize"></button>
+      <button class="maximize"></button>
+      <button class="close"></button>
+    </div>
+  </div>
+
+
+<div class="window-body">
+  <section class="group-box" style="text-align: center;">
+    <img src="https://file.garden/aBi0tvXzESnPXzr_/lucy_smoke" style="border-radius:3px; max-width:40%; height:auto; margin-bottom:10px;" alt="dashboard image">
+    <p><strong>time:</strong> <span id="time">{{ time }}</span></p>
+    <p><strong>weather:</strong> <span id="weather">{{ weather }}</span></p>
+    <blockquote>"{{ quote }}"</blockquote>
+  </section>
+
+  <hr>
+
+  {% if session.get('password') %}
+  <section class="group-box">
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
+      <form method="post" style="display:flex; gap:5px; align-items:center;">
+        <input type="text" name="card" placeholder="today's tarot card" style="width:200px;">
+        <input type="hidden" name="form_type" value="tarot">
+        <button type="submit" class="btn" style="width:80px;">set tarot</button>
+      </form>
+      <form method="post" style="display:flex; gap:5px; align-items:center;">
+        <input type="text" name="character" placeholder="character name" style="width:200px;">
+        <input type="hidden" name="form_type" value="feeling">
+        <button type="submit" class="btn" style="width:80px;">set feeling</button>
+      </form>
+    </div>
+      {% endif %}
+
+    {% if tarot.card or feeling.character %}
+    <p>
+        <p>likely a temporary hub to remind me to do a lot of this stuff.</p> 
+        <p>my name is marcy or angel or whatever you wanna call me, it/they, 19yo, knowledgeable in html/css & python</p> 
+        <p><b>i am not volunteering for anything unless i state otherwise, <a href="https://raincandy.lol/portfolio">check more here.</a></b></p> 
+        <p>i am currently undergoing multiple mental health issues, personal irl situations, etc. all bad things happening at once. i'm trying to be patient and do my best, but if i snap or act unusually, i'm very sorry.</p>
+      {% if tarot.card %}<strong>today's tarot card:</strong> {{ tarot.card }}{% endif %}
+      {% if feeling.character %} — <strong>today i feel like:</strong> {{ feeling.character }}{% endif %}
+    </p>
+    {% endif %}
+  </section>
+
+  <hr>
+
+  <section class="group-box">
+    <h3>to-do list</h3>
+    <div style="display:flex; gap:5px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
+      <form method="post" style="display:flex; gap:5px; align-items:center;">
+        <input id="task" name="task" type="text" placeholder="new task" style="width:200px; min-width:150px; max-width:300px;">
+        <input type="hidden" name="form_type" value="todo">
+        <button type="submit" class="btn">add task</button>
+      </form>
+      {% if not session.get('password') %}
+      <button type="button" id="passwordBtn" class="btn" style="width:80px;">enter password</button>
+      {% else %}
+      <form action="{{ url_for('logout') }}" method="get" style="display:inline;">
+        <button type="submit" class="btn" style="width:80px;">logout</button>
+      </form>
+      {% endif %}
+    </div>
+
+    <ul style="list-style:none; padding-left:0; margin-top:10px; max-width:500px; margin-left:auto; margin-right:auto;">
+      {% for todo in todos %}
+      <li style="margin:6px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:5px;">
+        <span style="flex:1; word-break:break-word;" class="{% if todo.done %}done{% endif %}">{{ todo.task }}</span>
+        <div style="display:flex; gap:5px;">
+          <form method="post" action="{{ url_for('toggle', index=loop.index0) }}">
+            <button type="submit" {% if not session.get('password') %}disabled title="enter password to unlock"{% endif %}>✔</button>
+          </form>
+          <form method="post" action="{{ url_for('delete', index=loop.index0) }}">
+            <button type="submit" {% if not session.get('password') %}disabled title="enter password to unlock"{% endif %}>❌</button>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <hr>
+
+  <div class="social-buttons">
+    <form action="https://x.com/angelicArchit" method="get" target="_blank">
+      <button type="submit" class="btn">twitter</button>
+    </form>
+    <form action="https://github.com/marcheesed" method="get" target="_blank">
+      <button type="submit" class="btn">github</button>
+    </form>
+    <form action="https://pastry.diy/lucy" method="get" target="_blank">
+      <button type="submit" class="btn">pastry.diy</button>
+    </form>
+    <form action="https://tumblr.com/uraincandy" method="get" target="_blank">
+      <button type="submit" class="btn">tumblr</button>
+    </form>
+  </div>
+</div>
+</div>
+
+<div id="modaloverlay"></div>
+<div id="passwordmodal" class="window">
+  <div class="title-bar">
+    <div class="title-bar-text">enter password</div>
+    <div class="title-bar-controls">
+      <button aria-label="close" id="closeModal"></button>
+    </div>
+  </div>
+  <div class="window-body">
+    <form method="post" action="{{ url_for('set_password') }}">
+      <input type="password" name="password" placeholder="password">
+      <button type="submit">ok</button>
+    </form>
+  </div>
+</div>
+
+<script>
+async function updateStatus() {
+  try {
+    const response = await fetch("/api/status");
+    const data = await response.json();
+    document.getElementById("time").textContent = data.time;
+    document.getElementById("weather").textContent = data.weather;
+  } catch(err){console.error(err);}
+}
+setInterval(updateStatus,30000);
+updateStatus();
+
+const modal = document.getElementById('passwordmodal');
+const overlay = document.getElementById('modaloverlay');
+const btn = document.getElementById('passwordBtn');
+const close = document.getElementById('closeModal');
+function showModal(){ modal.style.display='block'; overlay.style.display='block'; }
+function closeModal(){ modal.style.display='none'; overlay.style.display='none'; }
+if(btn) btn.onclick=showModal;
+close.onclick=closeModal;
+overlay.onclick=closeModal;
+</script>
+</body>
+</html>
