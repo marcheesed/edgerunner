@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <title>extras</title>
+  <link rel="stylesheet" href="https://unpkg.com/98.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" href="https://file.garden/aBi0tvXzESnPXzr_/tumblr_051dccd31c15cc361f0f97ee3a647c1c_dcf1f018_250.png" type="image/png">
+  <!----- 
+    * windows music player reskin lovingly created by june @ loveberry.neocities.org / layercake.neocities.org
+    * original multiple song music player by adilene @ adilene.net. [https://pastebin.com/PiDgrv3J] 
+    * edited using 98 css [https://jdan.github.io/98.css/]
+ 	* source code: https://github.com/sayantanm19/js-music-player
+																	----->
+</head>
+<body>
+
+
+<div class="window" style="max-width: 600px; margin: 40px auto;">
+  <div class="player-title-bar">
+    <div class="title-bar-text">extras page</div>
+    <div class="title-bar-controls">
+      <button class="minimize"></button>
+      <button class="maximize"></button>
+      <button class="close"></button>
+    </div>
+  </div>
+
+  <div class="window-body">
+    <section class="group-box" style="text-align:center;">
+      <h3>{{ message }}</h3>
+
+
+<div class="extras-container">
+  <div class="extras-window notepad-window" id="notepad">
+    <div class="notepad-title-bar">
+      <div class="notepad-title-bar-text">Notepad</div>
+      <div class="notepad-title-bar-controls">
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="notepad-window-body">
+      <textarea id="notepad-text" placeholder="type something here..! if you click save, it'll save it to your computer!" oninput="saveNotepad()"></textarea>
+      <button onclick="downloadNotepad()">Save</button>
+    </div>
+  </div>
+
+  <div class="player" style="margin-top: 50px;">
+    <div class="player-window">
+      <div class="player-title-bar">
+        <div class="player-title-bar-text">
+          <sub><img class="player-titlebar-icon" src="https://files.catbox.moe/tg55zp.png" alt="cd player icon"></sub> 
+          CD player
+        </div>
+        <div class="player-title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close"></button>
+        </div>
+      </div>
+
+      <div class="player-window-body">
+        <div class="player-flex">
+          <div id="player-imagestyle">
+            <img class="player-icon" src="https://file.garden/aBi0tvXzESnPXzr_/7caebc8f1c26cd1c053162a8fd0b75aa_cropped.png" alt="lucy icon">
+          </div>
+
+          <div id="player-musicplayer">
+            <div class="player-songtitle-window">
+              <div class="player-flex">
+                <marquee scrollamount="4" class="player-songtitle"></marquee>
+                <div class="player-songtitle-arrow"></div>
+              </div>
+            </div>
+
+            <div class="player-seeking">
+              <div class="player-current-time">00:00</div>
+              <input type="range" min="1" max="100" value="0" class="player-seek-slider" onchange="seekTo()">
+              <div class="player-total-duration">0:00</div>
+            </div>
+
+            <table class="player-controls">
+              <tr>
+                <td>
+                  <div class="player-prev-track" onclick="prevTrack()">
+                    <button><img src="https://files.catbox.moe/hhoh1h.png" class="player-control-img"></button>
+                  </div>
+                </td>
+                <td>
+                  <div class="player-playpause-track" onclick="playpauseTrack()">
+                    <button><img src="https://files.catbox.moe/w93riq.png" class="player-control-img"></button>
+                  </div>
+                </td>
+                <td>
+                  <div class="player-next-track" onclick="nextTrack()">
+                    <button><img src="https://files.catbox.moe/p4q9gf.png" class="player-control-img"></button>
+                  </div>
+                </td>
+              </tr>
+            </table>
+
+            <audio id="player-music" src=""></audio> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+
+
+
+<div class="pixel-container">
+
+<div class="scrollbox">
+  <p>oh hello you have stumbled across my extras page. i coded this website for fun, this is the user friendly side as opposed to the index which requires admin access for the fun stuff!</p>
+    {% if sections.fandoms %}
+        <p><strong>i consider myself to be a fan of:</strong><br> {{ sections.fandoms }}</p>
+    {% endif %}
+
+    {% if sections.enjoy %}
+        <p><strong>most days i enjoy:</strong><br> {{ sections.enjoy }}</p>
+    {% endif %}
+
+    {% if sections.avoid %}
+        <p><strong>please do not talk to me if:</strong><br> {{ sections.avoid }}</p>
+    {% endif %}
+
+    {% if sections.characters %}
+        <p><strong>characters i really enjoy include:</strong><br> {{ sections.characters }}</p>
+    {% endif %}
+    <p>i do not like romance, yet i do at the same time. the concept is wonderful, yet the execution horrible. sometimes i will mistake platonic things for romantic / come off as flirtatious when i do not mean to, please tell me if you are uncomfortable or if what youre saying has romantic intentions, i am bad with people!</p>
+    <p>i love listening to music more than the ordinary person. seriously, please talk to me about it!! all genres!!! i genre hop!</p>
+    <p>ummm this will probably change alot! wip wip</p>
+</for>
+
+
+</div>
+
+
+<div class="extras-window pixelart-window" id="pixelart">
+  <div class="pixelart-title-bar">
+    <div class="pixelart-title-bar-text">Pixel Art Editor</div>
+    <div class="pixelart-title-bar-controls">
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="pixelart-window-body">
+    <canvas id="pixelart-canvas" width="320" height="320" style="border:1px solid black;"></canvas>
+    <br>
+    <input type="color" id="color-picker" value="#ff0000">
+<div class="pixelart-controls">
+  <button onclick="clearPixelArt()">Clear</button>
+  <button onclick="downloadPixelArt()">Save as PNG</button>
+</div>
+  </div>
+</div>
+</div>
+
+
+
+    <hr>
+    <div style="display:flex;justify-content: space-evenly;">
+<form action="{{ url_for('index') }}">
+  <button class="btn" style="padding: 7px 19px; min-width: 80px;">back to dashboard</button>
+</form>
+</div>
+  </div>
+      {% if session.get('password') %}
+<details>
+  <summary style="cursor:pointer; font-weight:bold; text-align:left; padding-left: 10px;">
+    edit personal sections
+  </summary>
+  <section class="group-box" style="margin-top:10px;">
+    <div style="display:flex; flex-direction: column; gap: 10px;">
+      <form action="{{ url_for('set_sections') }}" method="POST" style="display:flex; flex-direction: column; gap: 8px;">
+          <label for="personal-fandoms"><strong>i consider myself to be a fan of:</strong></label>
+          <textarea id="personal-fandoms" name="fandoms">{{ sections.fandoms }}</textarea>
+          
+          <label for="personal-enjoy"><strong>most days i enjoy:</strong></label>
+          <textarea id="personal-enjoy" name="enjoy">{{ sections.enjoy }}</textarea>
+          
+          <label for="personal-avoid"><strong>please do not talk to me if:</strong></label>
+          <textarea id="personal-avoid" name="avoid">{{ sections.avoid }}</textarea>
+          
+          <label for="personal-characters"><strong>characters i really enjoy include:</strong></label>
+          <textarea id="personal-characters" name="characters">{{ sections.characters }}</textarea>
+          
+          <button type="submit" style="width:100px;">save</button>
+      </form>
+    </div>
+  </section>
+</details>
+      {% endif %}
+
+
+  <hr>
+<div class="footer">
+hosted on render, coded with python3, javascript and html/css
+</div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+
+function calculateSettingAsThemeString({ localStorageTheme, systemSettingDark }) {
+  if (localStorageTheme !== null) {
+    return localStorageTheme;
+  }
+  if (systemSettingDark.matches) {
+    return "dark";
+  }
+  return "light";
+}
+
+// Get system preference + saved theme
+const localStorageTheme = localStorage.getItem("theme");
+const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+let currentThemeSetting = calculateSettingAsThemeString({ localStorageTheme, systemSettingDark });
+
+// Apply initial theme
+document.querySelector("html").setAttribute("data-theme", currentThemeSetting);
+
+// Update button text
+const button = document.querySelector("[data-theme-toggle]");
+button.innerText = currentThemeSetting === "dark" ? "turn on background gif" : "turn off background gif";
+button.setAttribute("aria-label", button.innerText);
+
+// Handle click
+button.addEventListener("click", () => {
+  const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
+
+  const newCta = newTheme === "dark" ? "turn on background gif" : "turn off background gif";
+  button.innerText = newCta;
+  button.setAttribute("aria-label", newCta);
+
+  document.querySelector("html").setAttribute("data-theme", newTheme);
+  localStorage.setItem("theme", newTheme);
+  currentThemeSetting = newTheme;
+});
+
+</script>
+<style>
+
+body {
+background-color: rgb(33, 2, 39);
+}
+
+.pixelart-window,
+.notepad-window,
+.player {
+    margin: 20px 0 0 0; /* only top margin, no left/right auto */
+}
+
+
+</style>
+</body>
+</html>

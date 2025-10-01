@@ -9,6 +9,8 @@ import json
 
 app = Flask(__name__)
 app.secret_key = "jason"  # required for sessions
+APP_PASSWORD="jason"
+
 
 load_dotenv()
 
@@ -17,12 +19,20 @@ TAROT_FILE = "tarot.json"
 FEELING_FILE = "feeling.json"
 QUOTES_FILE = "quotes.json"
 LAST_UPDATED_FILE = "last_updated.json"
+SECTIONS_FILE = "sections.json"
+
+# default fallback in case file doesn't exist or is corrupted
+default_sections = {
+    "fandoms": "",
+    "enjoy": "",
+    "avoid": "",
+    "characters": ""
+}
 
 # these are a fallback incase the json doesnt work
 default_quotes = [
     "if you're seeing this then the quote generator has failed and marcy is an idiot"
 ]
-
 
 with open("quotes.json", "r") as f:
     data = json.load(f)
@@ -33,6 +43,20 @@ if not isinstance(data, list):
 
 
 # ------------------ helpers ------------------
+
+def load_sections():
+    if os.path.exists(SECTIONS_FILE):
+        with open(SECTIONS_FILE, "r") as f:
+            data = json.load(f)
+            if isinstance(data, dict):
+                return data
+    return default_sections.copy()
+
+def save_sections(sections):
+    with open(SECTIONS_FILE, "w") as f:
+        json.dump(sections, f, indent=4)
+
+
 def load_quotes():
     if os.path.exists(QUOTES_FILE):
         with open(QUOTES_FILE, "r") as f:
@@ -88,6 +112,8 @@ def load_last_updated():
 def save_last_updated(data):
     with open(LAST_UPDATED_FILE, "w") as f:
         json.dump(data, f, indent=4)
+
+sections = load_sections()
 
 # ------------------ routes ------------------
 
@@ -159,7 +185,40 @@ def index():
         feeling=feeling,
         quotes=quotes_list,
         last_updated=last_updated,
+        sections=sections
     )
+
+@app.route("/set_sections", methods=["POST"])
+def set_sections():
+    if not session.get('password'):
+        return redirect(url_for("index"))
+
+    sections = load_sections()
+
+    # get form data
+    fandoms = request.form.get("fandoms")
+    enjoy = request.form.get("enjoy")
+    avoid = request.form.get("avoid")
+    characters = request.form.get("characters")
+
+    # update if provided
+    if fandoms is not None:
+        sections["fandoms"] = fandoms
+    if enjoy is not None:
+        sections["enjoy"] = enjoy
+    if avoid is not None:
+        sections["avoid"] = avoid
+    if characters is not None:
+        sections["characters"] = characters
+
+    save_sections(sections)
+    return redirect(url_for("index"))
+
+@app.route("/extras")
+def extras():
+    from app import load_sections
+    sections = load_sections()
+    return render_template("extras.html", message="funky extras page", sections=sections)
 
 @app.route("/toggle/<int:index>", methods=["POST"])
 def toggle(index):
@@ -211,7 +270,7 @@ def api_status():
 @app.route("/set_password", methods=["POST"])
 def set_password():
     pw = request.form.get("password")
-    if pw:
+    if pw and pw == APP_PASSWORD:
         session['password'] = pw
     return redirect(url_for("index"))
 

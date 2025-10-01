@@ -32,7 +32,7 @@
 
 <div class="window-body">
   <section class="group-box" style="text-align: center;">
-    <img src="https://file.garden/aBi0tvXzESnPXzr_/lucy_smoke" style="border-radius:3px; max-width:40%; height:auto; margin-bottom:10px;" alt="dashboard image">
+    <img src="https://file.garden/aBi0tvXzESnPXzr_/lucy_smoke" style="border-radius:3px; max-width:40%; height:auto; margin-bottom:10px;" class="image" alt="dashboard image">
     <p><strong>time & date:</strong> <span id="time">{{ time }}</span></p>
     <p><strong>weather:</strong> <span id="weather">{{ weather }}</span></p>
     <blockquote>"{{ quote }}"</blockquote>
@@ -40,6 +40,7 @@
 
   <hr>
 <!-- text -->
+<div class="main-text">
 {% if tarot.card or feeling.character or last_updated.date %}
       <p>likely a temporary hub to remind me to do a lot of this stuff.</p>
       <p>my name is marcy or angel or whatever you wanna call me, it/they, 19yo, knowledgeable in html/css & python.  </p>
@@ -59,15 +60,15 @@
     {% endif %}
 {% endif %}
   </section>
-
+</div>
   <hr>
 
   <section class="group-box">
-    <h4>to-do list</h4>
+    <h4 style="text-align:center;">to-do list</h4>
 <!-- this is the add task forum -->
 <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center; margin-bottom:10px;">
   <form method="post" style="display:flex; gap:5px; align-items:center;">
-    <input id="task" name="task" type="text" placeholder="new task" style="width:200px; min-width:150px; max-width:300px;">
+    <input id="task" name="task" type="text" placeholder="new task" style="width:150px; min-width:150px; max-width:300px;">
     <input type="hidden" name="form_type" value="todo">
     <button type="submit" class="btn">add task</button>
   </form>
@@ -87,8 +88,12 @@
   </button>
 </form>
 
-
+<form action="{{ url_for('extras') }}" method="get">
+  <button type="submit" class="btn" style="padding:6px 15px">extras page</button>
+</form>
 </div>
+
+
 <hr>
     </div>
 <!-- this is where we init the buttons for tasks -->
@@ -156,7 +161,6 @@
 </details>
 
 
-
 <hr>
 {% endif %}
 
@@ -215,7 +219,24 @@
     </form>
   </div>
 </div>
+<style>
 
+:root[data-theme="light"] {
+  --background-image: url("https://file.garden/aBi0tvXzESnPXzr_/tumblr_9dfe98f9048343554fc179782ea63bbf_d64953fc_250.webp");
+}
+
+:root[data-theme="dark"] {
+  --background-image: rgb(4, 3, 37);
+}
+
+
+body {
+    background: var(--background-image);
+}
+
+
+
+</style>
 <script>
   // should be an auto refresh for the time along with theme for the background gif toggle.
 async function updateStatus() {
