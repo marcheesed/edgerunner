@@ -64,58 +64,52 @@ img:hover { animation: shake 0.5s; animation-iteration-count: infinite; }
 <div class="window-body">
   <section class="group-box" style="text-align: center;">
     <img src="https://file.garden/aBi0tvXzESnPXzr_/lucy_smoke" style="border-radius:3px; max-width:40%; height:auto; margin-bottom:10px;" alt="dashboard image">
-    <p><strong>time:</strong> <span id="time">{{ time }}</span></p>
+    <p><strong>time & date:</strong> <span id="time">{{ time }}</span></p>
     <p><strong>weather:</strong> <span id="weather">{{ weather }}</span></p>
     <blockquote>"{{ quote }}"</blockquote>
   </section>
 
   <hr>
 
-  {% if session.get('password') %}
-  <section class="group-box">
-    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
-      <form method="post" style="display:flex; gap:5px; align-items:center;">
-        <input type="text" name="card" placeholder="today's tarot card" style="width:200px;">
-        <input type="hidden" name="form_type" value="tarot">
-        <button type="submit" class="btn" style="width:80px;">set tarot</button>
-      </form>
-      <form method="post" style="display:flex; gap:5px; align-items:center;">
-        <input type="text" name="character" placeholder="character name" style="width:200px;">
-        <input type="hidden" name="form_type" value="feeling">
-        <button type="submit" class="btn" style="width:80px;">set feeling</button>
-      </form>
-    </div>
-      {% endif %}
 
-    {% if tarot.card or feeling.character %}
-    <p>
-        <p>likely a temporary hub to remind me to do a lot of this stuff.</p> 
-        <p>my name is marcy or angel or whatever you wanna call me, it/they, 19yo, knowledgeable in html/css & python</p> 
-        <p><b>i am not volunteering for anything unless i state otherwise, <a href="https://raincandy.lol/portfolio">check more here.</a></b></p> 
-        <p>i am currently undergoing multiple mental health issues, personal irl situations, etc. all bad things happening at once. i'm trying to be patient and do my best, but if i snap or act unusually, i'm very sorry.</p>
-      {% if tarot.card %}<strong>today's tarot card:</strong> {{ tarot.card }}{% endif %}
-      {% if feeling.character %} — <strong>today i feel like:</strong> {{ feeling.character }}{% endif %}
-    </p>
+{% if tarot.card or feeling.character or last_updated.date %}
+      <p>likely a temporary hub to remind me to do a lot of this stuff.</p>
+      <p>my name is marcy or angel or whatever you wanna call me, it/they, 19yo, knowledgeable in html/css & python.  </p>
+      <p>i am not volunteering for anything unless i state otherwise, <a href="https://raincandy.lol/portfolio">check more here.</a>  </p>
+      <p>i am currently undergoing multiple mental health issues, personal irl situations, etc. all bad things happening at once. i'm trying to be patient and do my best, but if i snap or act unusually, i'm very sorry.</p>
+      <p>despite this, i try to be friendly especially to others in bad situations. do not flirt with me if you are under 18</p>
+    {% if tarot.card %}
+      <p><strong>today's tarot card:</strong> {{ tarot.card }} ----
     {% endif %}
+    {% if feeling.character %}
+      <strong>today i feel like:</strong> {{ feeling.character }} ----
+    {% endif %}
+    {% if last_updated.date %}
+      last updated on: <strong>{{ last_updated.date }}</strong></p>
+    {% endif %}
+{% endif %}
   </section>
 
   <hr>
 
   <section class="group-box">
     <h3>to-do list</h3>
-    <div style="display:flex; gap:5px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
-      <form method="post" style="display:flex; gap:5px; align-items:center;">
-        <input id="task" name="task" type="text" placeholder="new task" style="width:200px; min-width:150px; max-width:300px;">
-        <input type="hidden" name="form_type" value="todo">
-        <button type="submit" class="btn">add task</button>
-      </form>
-      {% if not session.get('password') %}
-      <button type="button" id="passwordBtn" class="btn" style="width:80px;">enter password</button>
-      {% else %}
-      <form action="{{ url_for('logout') }}" method="get" style="display:inline;">
-        <button type="submit" class="btn" style="width:80px;">logout</button>
-      </form>
-      {% endif %}
+<div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center; margin-bottom:10px;">
+  <form method="post" style="display:flex; gap:5px; align-items:center;">
+    <input id="task" name="task" type="text" placeholder="new task" style="width:200px; min-width:150px; max-width:300px;">
+    <input type="hidden" name="form_type" value="todo">
+    <button type="submit" class="btn">add task</button>
+  </form>
+  
+{% if not session.get('password') %}
+  <button type="button" id="passwordBtn" class="btn" style="padding: 8px 15px; min-width: 80px;">enter password</button>
+{% else %}
+  <form action="{{ url_for('logout') }}" method="get" style="display:inline-flex;">
+    <button type="submit" class="btn" style="width:80px;">logout</button>
+  </form>
+  {% endif %}
+</div>
+<hr>
     </div>
 
     <ul style="list-style:none; padding-left:0; margin-top:10px; max-width:500px; margin-left:auto; margin-right:auto;">
@@ -136,6 +130,53 @@ img:hover { animation: shake 0.5s; animation-iteration-count: infinite; }
   </section>
 
   <hr>
+
+  {% if session.get('password') %}
+<details>
+  <summary style="cursor:pointer; font-weight:bold; text-align:left;">edit quotes</summary>
+  <div style="display:flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+    {% for q in quotes %}
+    <form action="{{ url_for('quotes') }}" method="post" style="display:flex; gap:5px; flex: 1 0 200px; min-width: 200px;">
+      <input type="hidden" name="index" value="{{ loop.index0 }}">
+      <input type="text" name="quote" value="{{ q }}" style="min-width: 100px; max-width: 180px;">
+      <button name="action" value="edit">save</button>
+      <button name="action" value="delete">delete</button>
+    </form>
+    {% endfor %}
+  </div>
+  <form action="{{ url_for('quotes') }}" method="post" style="margin-top: 10px; display:flex; gap:5px; align-items:center;">
+    <input type="text" name="quote" placeholder="new quote" style="min-width: 100px; max-width: 180px;">
+    <button name="action" value="add">add quote</button>
+  </form>
+</details>
+
+<hr>
+<details>
+  <summary style="cursor:pointer; font-weight:bold; text-align:right;">edit tarot & character feeling</summary>
+  <section class="group-box" style="margin-top:10px;">
+    <div style="display:flex; flex-direction: column; gap: 10px; align-items: flex-end;">
+      <form method="post" style="display:flex; gap:5px; align-items:center; flex-wrap: wrap;">
+        <input type="text" name="card" placeholder="today's tarot card" style="min-width:200px; max-width:250px;">
+        <input type="hidden" name="form_type" value="tarot">
+        <button type="submit" class="btn" style="width:100px;">set tarot</button>
+      </form>
+      <form method="post" style="display:flex; gap:5px; align-items:center; flex-wrap: wrap;">
+        <input type="text" name="character" placeholder="character name" style="min-width:200px; max-width:250px;">
+        <input type="hidden" name="form_type" value="feeling">
+        <button type="submit" class="btn" style="width:100px;">set feeling</button>
+      </form>
+      <form method="post" action="{{ url_for('set_last_updated') }}" style="display:flex; gap:5px; align-items:center;">
+      <input type="text" name="last_date" placeholder="last updated on" value="{{ last_updated.date or '' }}" style="width:200px;">
+      <button type="submit" class="btn" style="width:120px;">set last updated</button>
+    </form>
+    </div>
+  </section>
+</details>
+
+
+
+<hr>
+{% endif %}
 
   <div class="social-buttons">
     <form action="https://x.com/angelicArchit" method="get" target="_blank">
@@ -159,7 +200,7 @@ img:hover { animation: shake 0.5s; animation-iteration-count: infinite; }
   <div class="title-bar">
     <div class="title-bar-text">enter password</div>
     <div class="title-bar-controls">
-      <button aria-label="close" id="closeModal"></button>
+      <button class="close" id="closeModal"></button>
     </div>
   </div>
   <div class="window-body">
