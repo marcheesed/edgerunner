@@ -1,53 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <title>dashboard</title>
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <link rel="icon" href="https://file.garden/aBi0tvXzESnPXzr_/tumblr_99deeef45c48c7ca49c4eefe5efc457b_fe825bca_75.webp" type="image/png">
-<style>
-#modaloverlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
-#passwordmodal { display: none; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -30%); max-width: 300px; z-index: 1000; }
-.inline-btn { margin-left: 5px; }
-.social-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-.social-buttons form { flex: 1; max-width: 100px; }
-.social-buttons button { width: 100%; }
-img:hover { animation: shake 0.5s; animation-iteration-count: infinite; }
-@keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-
-.close {
-    margin-left: 2px;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='8' height='7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0h2v1h1v1h2V1h1V0h2v1H7v1H6v1H5v1h1v1h1v1h1v1H6V6H5V5H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0V0z' fill='%23000'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: top 3px left 4px;
-}
-
-.maximize {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='9' height='9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9 0H0v9h9V0zM8 2H1v6h7V2z' fill='%23000'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: top 2px left 3px;
-}
-
-.minimize {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='6' height='2' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M0 0h6v2H0z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: bottom 3px left 4px;
-}
-</style>
 </head>
 <body>
 <div class="window" style="max-width: 600px; margin: 40px auto;">
@@ -108,6 +66,14 @@ img:hover { animation: shake 0.5s; animation-iteration-count: infinite; }
     <button type="submit" class="btn" style="width:80px;">logout</button>
   </form>
   {% endif %}
+
+<form action="" method="post">
+  <button type="submit" name="action" value="toggle-bg" data-theme-toggle aria-label="turn off background giff" style="padding: 8px 15px; min-width: 80px;">
+    turn off background gif
+  </button>
+</form>
+
+
 </div>
 <hr>
     </div>
@@ -133,26 +99,26 @@ img:hover { animation: shake 0.5s; animation-iteration-count: infinite; }
 
   {% if session.get('password') %}
 <details>
-  <summary style="cursor:pointer; font-weight:bold; text-align:left;">edit quotes</summary>
+  <summary style="cursor:pointer; font-weight:bold; text-align:left;">edit quote roster</summary>
   <div style="display:flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
     {% for q in quotes %}
     <form action="{{ url_for('quotes') }}" method="post" style="display:flex; gap:5px; flex: 1 0 200px; min-width: 200px;">
       <input type="hidden" name="index" value="{{ loop.index0 }}">
-      <input type="text" name="quote" value="{{ q }}" style="min-width: 100px; max-width: 180px;">
+      <input type="text" name="quote" value="{{ q }}" style="min-width: 130px; max-width: 180px;">
       <button name="action" value="edit">save</button>
       <button name="action" value="delete">delete</button>
     </form>
     {% endfor %}
   </div>
   <form action="{{ url_for('quotes') }}" method="post" style="margin-top: 10px; display:flex; gap:5px; align-items:center;">
-    <input type="text" name="quote" placeholder="new quote" style="min-width: 100px; max-width: 180px;">
+    <input type="text" name="quote" placeholder="new quote" style="min-width: 180px; max-width: 180px;">
     <button name="action" value="add">add quote</button>
   </form>
 </details>
 
 <hr>
 <details>
-  <summary style="cursor:pointer; font-weight:bold; text-align:right;">edit tarot & character feeling</summary>
+  <summary style="cursor:pointer; font-weight:bold; text-align:right;">edit tarot card, character feeling & last updated</summary>
   <section class="group-box" style="margin-top:10px;">
     <div style="display:flex; flex-direction: column; gap: 10px; align-items: flex-end;">
       <form method="post" style="display:flex; gap:5px; align-items:center; flex-wrap: wrap;">
@@ -167,7 +133,7 @@ img:hover { animation: shake 0.5s; animation-iteration-count: infinite; }
       </form>
       <form method="post" action="{{ url_for('set_last_updated') }}" style="display:flex; gap:5px; align-items:center;">
       <input type="text" name="last_date" placeholder="last updated on" value="{{ last_updated.date or '' }}" style="width:200px;">
-      <button type="submit" class="btn" style="width:120px;">set last updated</button>
+      <button type="submit" class="btn" style="width:100px;">set last updated</button>
     </form>
     </div>
   </section>
@@ -190,6 +156,9 @@ img:hover { animation: shake 0.5s; animation-iteration-count: infinite; }
     </form>
     <form action="https://tumblr.com/uraincandy" method="get" target="_blank">
       <button type="submit" class="btn">tumblr</button>
+    </form>
+    <form action="https://raincandy.lol" method="get" target="_blank">
+      <button type="submit" class="btn">main website</button>
     </form>
   </div>
 </div>
@@ -232,6 +201,46 @@ function closeModal(){ modal.style.display='none'; overlay.style.display='none';
 if(btn) btn.onclick=showModal;
 close.onclick=closeModal;
 overlay.onclick=closeModal;
+</script>
+<script>
+function calculateSettingAsThemeString({ localStorageTheme, systemSettingDark }) {
+  if (localStorageTheme !== null) {
+    return localStorageTheme;
+  }
+  if (systemSettingDark.matches) {
+    return "dark";
+  }
+  return "light";
+}
+
+// Get system preference + saved theme
+const localStorageTheme = localStorage.getItem("theme");
+const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+let currentThemeSetting = calculateSettingAsThemeString({ localStorageTheme, systemSettingDark });
+
+// Apply initial theme
+document.querySelector("html").setAttribute("data-theme", currentThemeSetting);
+
+// Update button text
+const button = document.querySelector("[data-theme-toggle]");
+button.innerText = currentThemeSetting === "dark" ? "turn on background gif" : "turn off background gif";
+button.setAttribute("aria-label", button.innerText);
+
+// Handle click
+button.addEventListener("click", () => {
+  const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
+
+  const newCta = newTheme === "dark" ? "turn on background gif" : "turn off background gif";
+  button.innerText = newCta;
+  button.setAttribute("aria-label", newCta);
+
+  document.querySelector("html").setAttribute("data-theme", newTheme);
+  localStorage.setItem("theme", newTheme);
+  currentThemeSetting = newTheme;
+});
+
+
 </script>
 </body>
 </html>

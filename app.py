@@ -130,7 +130,7 @@ def index():
         return redirect(url_for("index"))
 
     now = datetime.now().strftime("%A, %B %d, %Y %H:%M:%S")
-    weather_api_key = os.getenv("WEATHER_API_KEY")
+    weather_api_key = "c9dc17589825d6c7f5d44c5c18827ac3"
     city = "London"
     weather = "Weather unavailable"
     try:
@@ -190,7 +190,7 @@ def delete(index):
 @app.route("/api/status")
 def api_status():
     now = datetime.now().strftime("%A, %B %d, %Y %H:%M:%S")
-    weather_api_key = os.getenv("WEATHER_API_KEY")
+    weather_api_key = "c9dc17589825d6c7f5d44c5c18827ac3"
     city = "London"
     weather = "Weather unavailable"
     try:

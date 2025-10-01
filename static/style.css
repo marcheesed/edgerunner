@@ -1,6 +1,15 @@
+:root[data-theme="light"] {
+  --background-image: url("https://file.garden/aBi0tvXzESnPXzr_/tumblr_9dfe98f9048343554fc179782ea63bbf_d64953fc_250.webp");
+}
+
+:root[data-theme="dark"] {
+  --background-image: rgb(183, 152, 189);
+}
+
+
 body {
     font-family: Arial, sans-serif;
-    background: url("https://file.garden/aBi0tvXzESnPXzr_/tumblr_9dfe98f9048343554fc179782ea63bbf_d64953fc_250.webp");
+    background: var(--background-image);
     color: #333;
     text-align: center;
     margin: 0;
@@ -67,4 +76,45 @@ a {
     margin-left: 8px;
     text-decoration: none;
     font-weight: bold;
+}
+
+#modaloverlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+#passwordmodal { display: none; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -30%); max-width: 300px; z-index: 1000; }
+.inline-btn { margin-left: 5px; }
+.social-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.social-buttons form { flex: 1; max-width: 100px; }
+.social-buttons button { width: 100%; }
+img:hover { animation: shake 0.5s; animation-iteration-count: infinite; }
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+
+.close {
+    margin-left: 2px;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='8' height='7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0h2v1h1v1h2V1h1V0h2v1H7v1H6v1H5v1h1v1h1v1h1v1H6V6H5V5H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0V0z' fill='%23000'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: top 3px left 4px;
+}
+
+.maximize {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='9' height='9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9 0H0v9h9V0zM8 2H1v6h7V2z' fill='%23000'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: top 2px left 3px;
+}
+
+.minimize {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='6' height='2' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M0 0h6v2H0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: bottom 3px left 4px;
 }
