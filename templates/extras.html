@@ -163,48 +163,29 @@
 <div class="pixelart-controls">
   <button onclick="clearPixelArt()">Clear</button>
   <button onclick="downloadPixelArt()">Save as PNG</button>
+<button 
+  onclick="submitPixelArt()" 
+  {% if session.get('password') %}disabled{% endif %}>
+  Send to Admin
+</button>
+
 </div>
   </div>
 </div>
 </div>
-
-
 
     <hr>
     <div style="display:flex;justify-content: space-evenly;">
 <form action="{{ url_for('index') }}">
   <button class="btn" style="padding: 7px 19px; min-width: 80px;">back to dashboard</button>
 </form>
-
+            {% if session.get('password') %}
+<form action="{{ url_for('admin') }}">
+  <button class="btn" style="padding: 7px 19px; min-width: 80px;">admin panel</button>
+</form>
+      {% endif %}
 </div>
   </div>
-      {% if session.get('password') %}
-<details>
-  <summary style="cursor:pointer; font-weight:bold; text-align:left; padding-left: 10px;">
-    edit personal sections
-  </summary>
-  <section class="group-box" style="margin-top:10px;">
-    <div style="display:flex; flex-direction: column; gap: 10px;">
-      <form action="{{ url_for('set_sections') }}" method="POST" style="display:flex; flex-direction: column; gap: 8px;">
-          <label for="personal-fandoms"><strong>i consider myself to be a fan of:</strong></label>
-          <textarea id="personal-fandoms" name="fandoms">{{ sections.fandoms }}</textarea>
-          
-          <label for="personal-enjoy"><strong>most days i enjoy:</strong></label>
-          <textarea id="personal-enjoy" name="enjoy">{{ sections.enjoy }}</textarea>
-          
-          <label for="personal-avoid"><strong>please do not talk to me if:</strong></label>
-          <textarea id="personal-avoid" name="avoid">{{ sections.avoid }}</textarea>
-          
-          <label for="personal-characters"><strong>characters i really enjoy include:</strong></label>
-          <textarea id="personal-characters" name="characters">{{ sections.characters }}</textarea>
-          
-          <button type="submit" style="width:100px;">save</button>
-      </form>
-    </div>
-  </section>
-</details>
-      {% endif %}
-
 
   <hr>
 <div class="footer">

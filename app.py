@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, send_from_directory
 import requests
 from datetime import datetime
 import random
@@ -6,6 +6,13 @@ import json
 import os
 from dotenv import load_dotenv
 import json
+from werkzeug.utils import secure_filename
+from datetime import datetime
+import pytz
+
+london_tz = pytz.timezone("Europe/London")
+now = datetime.now(london_tz).strftime("%A, %B %d, %Y %H:%M:%S")
+
 
 app = Flask(__name__)
 app.secret_key = "jason"  # required for sessions
@@ -20,6 +27,14 @@ FEELING_FILE = "feeling.json"
 QUOTES_FILE = "quotes.json"
 LAST_UPDATED_FILE = "last_updated.json"
 SECTIONS_FILE = "sections.json"
+UPLOAD_FOLDER = "submissions"
+ADMIN_MEME_FILE = "admin_meme.json"
+
+
+# these are a fallback incase the json doesnt work
+default_quotes = [
+    "if you're seeing this then the quote generator has failed and marcy is an idiot"
+]
 
 # default fallback in case file doesn't exist or is corrupted
 default_sections = {
@@ -29,10 +44,12 @@ default_sections = {
     "characters": ""
 }
 
-# these are a fallback incase the json doesnt work
-default_quotes = [
-    "if you're seeing this then the quote generator has failed and marcy is an idiot"
-]
+# another default u know the deal by now
+default_admin_meme = {
+    "url": "https://file.garden/aBi0tvXzESnPXzr_/tumblr_d09e7e19f7f26dd0f80c0c2ba7b511dd_50474f34_400.webp",
+    "caption": "marcy when it has to do any form of database work (fuck you sql)!!!!!!!"
+}
+
 
 with open("quotes.json", "r") as f:
     data = json.load(f)
@@ -40,7 +57,9 @@ with open("quotes.json", "r") as f:
 if not isinstance(data, list):
     with open("quotes.json", "w") as f:
         json.dump(default_quotes, f, indent=4)
+# Where submissions are stored (make sure this folder exists)
 
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # ------------------ helpers ------------------
 
@@ -112,6 +131,16 @@ def load_last_updated():
 def save_last_updated(data):
     with open(LAST_UPDATED_FILE, "w") as f:
         json.dump(data, f, indent=4)
+
+def load_admin_meme():
+    if os.path.exists(ADMIN_MEME_FILE):
+        with open(ADMIN_MEME_FILE, "r") as f:
+            return json.load(f)
+    return default_admin_meme.copy()
+
+def save_admin_meme(meme):
+    with open(ADMIN_MEME_FILE, "w") as f:
+        json.dump(meme, f, indent=4)
 
 sections = load_sections()
 
@@ -200,6 +229,7 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 
+
 @app.route("/set_sections", methods=["POST"])
 def set_sections():
     if not session.get('password'):
@@ -284,7 +314,9 @@ def set_password():
     pw = request.form.get("password")
     if pw and pw == APP_PASSWORD:
         session['password'] = pw
-    return redirect(url_for("index"))
+    # redirect back to the page the user submitted the form from
+    return redirect(request.referrer or url_for("index"))
+
 
 @app.route("/logout")
 def logout():
@@ -294,12 +326,16 @@ def logout():
 @app.route("/set_feeling", methods=["POST"])
 def set_feeling():
     if not session.get('password'):
-        return redirect(url_for("index"))
+        return jsonify({"success": False, "error": "Not logged in"}), 403
+
     character = request.form.get("character")
     if character:
         feeling = {"date": datetime.now().strftime("%Y-%m-%d"), "character": character}
         save_feeling(feeling)
-    return redirect(url_for("index"))
+        return jsonify({"success": True, "character": character, "date": feeling["date"]})
+    
+    return jsonify({"success": False, "error": "No character provided"}), 400
+
 
 @app.route("/quotes", methods=["POST"], endpoint='quotes')
 def edit_quotes():
@@ -326,16 +362,88 @@ def edit_quotes():
     save_quotes(quotes_list)
     return redirect(url_for("index"))
 
+
+@app.route("/set_admin_meme", methods=["POST"])
+def set_admin_meme():
+    if not session.get("password"):
+        return redirect(url_for("index"))
+
+    url = request.form.get("url")
+    caption = request.form.get("caption")
+
+    meme = load_admin_meme()
+    if url:
+        meme["url"] = url
+    if caption:
+        meme["caption"] = caption
+
+    save_admin_meme(meme)
+    return redirect(url_for("admin"))
+
+
 @app.route("/set_tarot", methods=["POST"])
 def set_tarot():
     if not session.get('password'):
-        return redirect(url_for("index"))
+        return jsonify({"success": False, "error": "Not logged in"}), 403
+
     card = request.form.get("card")
     if card:
         tarot_list = load_tarot()
         tarot_list.append({"date": datetime.now().strftime("%Y-%m-%d"), "card": card})
         save_tarot(tarot_list)
-    return redirect(url_for("index"))
+        return jsonify({"success": True, "card": card})
+    
+    return jsonify({"success": False, "error": "No card provided"}), 400
+
+
+@app.route("/submit_pixelart", methods=["POST"])
+def submit_pixelart():
+    if "pixelart" not in request.files:
+        return "No file uploaded", 400
+
+    file = request.files["pixelart"]
+    filename = secure_filename(file.filename)
+    file.save(os.path.join(UPLOAD_FOLDER, filename))
+    return "OK", 200
+
+@app.route("/admin", endpoint="admin")
+def admin():
+    # Require password login
+    if not session.get("password"):
+        return redirect(url_for("index"))
+
+    # --- pixel art submissions ---
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    files = [f for f in os.listdir(UPLOAD_FOLDER) if f.endswith((".png", ".jpg", ".jpeg", ".gif"))]
+
+    # --- load data for dashboard ---
+    sections = load_sections()
+    todos = load_todos()
+    quotes = load_quotes()
+    feeling = load_feeling()
+    tarot_history = load_tarot()
+    latest_tarot = tarot_history[-1] if tarot_history else None
+    last_updated = load_last_updated()
+    meme = load_admin_meme()
+
+
+    return render_template(
+        "admin.html",
+        files=files,
+        sections=sections,
+        todos=todos,
+        quotes=quotes,
+        feeling=feeling,
+        tarot=latest_tarot,
+        tarot_history=tarot_history,
+        last_updated=last_updated,
+        meme=meme,
+    )
+
+@app.route("/submissions/<filename>")
+def get_submission(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
+
 
 
 if __name__ == "__main__":

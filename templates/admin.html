@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>admin panel</title>
+<link rel="stylesheet" href="https://unpkg.com/98.css" />
+  <link rel="icon" href="https://file.garden/aBi0tvXzESnPXzr_/tumblr_051dccd31c15cc361f0f97ee3a647c1c_dcf1f018_250.png" type="image/png">
+</head>
+<body>
+
+  <!--i am not commenting this for shit-->
+    <div id="adminContent">
+  <div class="window" style="max-width:600px; margin:40px auto;">
+    <div class="title-bar">
+      <div class="title-bar-text">admin panel</div>
+      <div class="title-bar-controls">
+        <form action="{{ url_for('logout') }}" method="get" style="display:inline;">
+          <button type="submit" class="close"></button>
+        </form>
+      </div>
+    </div>
+    <div class="window-body">
+<div style="margin:20px 0; text-align:center;">
+  <img src="{{ meme.url }}" style="width:100%">
+  <p>{{ meme.caption }}</p>
+</div>
+      {% if files %}
+        {% for file in files %}
+          <div style="margin-bottom:10px;">
+            <img src="{{ url_for('get_submission', filename=file) }}" width="160">
+            <p>{{ file }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No submissions yet.</p>
+      {% endif %}
+
+<br>
+
+<details>
+  <summary style="cursor:pointer; font-weight:bold; text-align:left; padding-left: 10px;">
+    edit admin meme
+  </summary>
+  <section class="group-box" style="margin-top:10px;">
+    <div style="display:flex; flex-direction: column; gap: 10px;">
+      <form action="{{ url_for('set_admin_meme') }}" method="POST" style="display:flex; flex-direction: column; gap: 8px;">
+        <label for="meme-url"><strong>Image URL:</strong></label>
+        <input id="meme-url" type="text" name="url" value="{{ meme.url }}" style="width:100%;">
+
+        <label for="meme-caption"><strong>Caption:</strong></label>
+        <textarea id="meme-caption" name="caption" style="width:100%;">{{ meme.caption }}</textarea>
+
+        <button type="submit" style="width:100px;">save</button>
+      </form>
+
+    </div>
+  </section>
+</details>
+
+<hr>
+
+            {% if session.get('password') %}
+<details>
+  <summary style="cursor:pointer; font-weight:bold; text-align:right; padding-right: 10px;">
+    edit personal sections
+  </summary>
+  <section class="group-box" style="margin-top:10px;">
+    <div style="display:flex; flex-direction: column; gap: 10px;">
+      <form action="{{ url_for('set_sections') }}" method="POST" style="display:flex; flex-direction: column; gap: 8px;">
+          <label for="personal-fandoms"><strong>i consider myself to be a fan of:</strong></label>
+          <textarea id="personal-fandoms" name="fandoms">{{ sections.fandoms }}</textarea>
+          
+          <label for="personal-enjoy"><strong>most days i enjoy:</strong></label>
+          <textarea id="personal-enjoy" name="enjoy">{{ sections.enjoy }}</textarea>
+          
+          <label for="personal-avoid"><strong>please do not talk to me if:</strong></label>
+          <textarea id="personal-avoid" name="avoid">{{ sections.avoid }}</textarea>
+          
+          <label for="personal-characters"><strong>characters i really enjoy include:</strong></label>
+          <textarea id="personal-characters" name="characters">{{ sections.characters }}</textarea>
+          
+          <button type="submit" style="width:100px;">save</button>
+      </form>
+    </div>
+  </section>
+</details>
+
+      <hr>
+
+<details>
+  <!-- editing quotes -->
+  <summary style="cursor:pointer; font-weight:bold; text-align:left; padding-left: 10px;">edit quote roster</summary>
+  <div style="display:flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+    {% for q in quotes %}
+    <form action="{{ url_for('quotes') }}" method="post" style="display:flex; gap:5px; flex: 1 0 200px; min-width: 200px;">
+      <input type="hidden" name="index" value="{{ loop.index0 }}">
+      <input type="text" name="quote" value="{{ q }}" style="min-width: 135px; max-width: 180px;">
+      <button name="action" value="edit">save</button>
+      <button name="action" value="delete">delete</button>
+    </form>
+    {% endfor %}
+  </div>
+  <form action="{{ url_for('quotes') }}" method="post" style="margin-top: 10px; display:flex; gap:5px; align-items:center;">
+    <input type="text" name="quote" placeholder="new quote" style="min-width: 180px; max-width: 180px;">
+    <button name="action" value="add">add quote</button>
+  </form>
+</details>
+
+<hr>
+<details>
+  <summary style="cursor:pointer; font-weight:bold; text-align:right; padding-right: 10px;">edit tarot card, character feeling & last updated</summary>
+  <section class="group-box" style="margin-top:10px;">
+    <div style="display:flex; flex-direction: column; gap: 10px; align-items: flex-end;">
+<form id="tarotForm" style="display:flex; gap:5px; align-items:center; flex-wrap: wrap;">
+  <input type="text" name="card" id="tarotCard" placeholder="today's tarot card" style="min-width:200px; max-width:250px;">
+  <button type="submit" class="btn" style="width:100px;">set tarot</button>
+</form>
+
+<p id="tarotStatus" style="margin-top:5px; font-style:italic;"></p>
+
+<form id="feelingForm" style="display:flex; gap:5px; align-items:center; flex-wrap: wrap;">
+  <input type="text" name="character" id="feelingCharacter" placeholder="today i feel like..." style="min-width:200px; max-width:250px;">
+  <button type="submit" class="btn" style="width:100px;">set feeling</button>
+</form>
+
+<p id="feelingStatus" style="margin-top:5px; font-style:italic;"></p>
+
+      <form method="post" action="{{ url_for('set_last_updated') }}" style="display:flex; gap:5px; align-items:center;">
+      <input type="text" name="last_date" placeholder="last updated on" value="{{ last_updated.date or '' }}" style="width:200px;">
+      <button type="submit" class="btn" style="width:100px;">set last updated</button>
+    </form>
+    </div>
+  </section>
+</details>
+
+{% endif %}
+<hr>
+
+    <div style="display:flex;justify-content: space-evenly;">
+<form action="{{ url_for('index') }}">
+  <button class="btn" style="padding: 7px 19px; min-width: 80px;">dashboard</button>
+</form>
+
+<form action="{{ url_for('art') }}">
+  <button class="btn" style="padding: 7px 19px; min-width: 80px;">art archive</button>
+</form>
+
+<form action="{{ url_for('extras') }}">
+  <button class="btn" style="padding: 7px 19px; min-width: 80px;">extras page</button>
+</form>
+
+<form action="{{ url_for('links') }}">
+  <button class="btn" style="padding: 7px 19px; min-width: 80px;">links hub</button>
+</form>
+
+</div>
+    </div>
+  </div>
+</div>
+
+<!-- password prompt -->
+{% if not session.get('password') %}
+<div id="modaloverlay"></div>
+<div id="passwordmodal" class="window">
+  <div class="title-bar">
+    <div class="title-bar-text">enter password</div>
+    <div class="title-bar-controls">
+      <button class="close"></button>
+    </div>
+  </div>
+  <div class="window-body">
+    <form method="post" action="{{ url_for('set_password') }}">
+      <input type="password" name="password" placeholder="password">
+      <input type="hidden" name="next" value="{{ request.path }}">
+      <button type="submit">ok</button>
+    </form>
+  </div>
+</div>
+{% endif %}
+
+
+<style>
+
+body {
+background-color: rgb(13, 1, 36);
+}
+  #modaloverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* dark overlay */
+    backdrop-filter: blur(50px);       /* blur everything behind */
+    z-index: 999;
+  }
+
+  #passwordmodal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    max-width: 400px;
+    width: 90%;
+  }
+</style>
+<script>
+document.getElementById("feelingForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const character = document.getElementById("feelingCharacter").value;
+
+  const formData = new FormData();
+  formData.append("character", character);
+
+  const response = await fetch("{{ url_for('set_feeling') }}", {
+    method: "POST",
+    body: formData
+  });
+
+  const result = await response.json();
+  if (result.success) {
+    document.getElementById("feelingStatus").textContent = 
+      "kin set you fucking lunatic: " + result.character + " (" + result.date + ")";
+    document.getElementById("feelingCharacter").value = "";
+  } else {
+    document.getElementById("feelingStatus").textContent = 
+      "FAILURE" + (result.error || "Failed to set feeling.");
+  }
+});
+</script>
+
+<script>
+document.getElementById("tarotForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const card = document.getElementById("tarotCard").value;
+
+  const formData = new FormData();
+  formData.append("card", card);
+
+  const response = await fetch("{{ url_for('set_tarot') }}", {
+    method: "POST",
+    body: formData
+  });
+
+  const result = await response.json();
+  if (result.success) {
+    document.getElementById("tarotStatus").textContent = 
+      "your card has been set: " + result.card;
+    document.getElementById("tarotCard").value = "";
+  } else {
+    document.getElementById("tarotStatus").textContent = 
+      "FAILURE!!! FAILURE!!!" + (result.error || "Failed to set tarot card.");
+  }
+});
+</script>
+
+<script>
+const modal = document.getElementById('passwordmodal');
+const overlay = document.getElementById('modaloverlay');
+
+if (modal && overlay) {
+  const close = document.getElementById('closeModal');
+
+  function showModal() {
+    modal.style.display = 'block';
+    overlay.style.display = 'block';
+    document.getElementById('adminContent').style.filter = 'blur(20px)';
+    document.getElementById('adminContent').style.pointerEvents = 'none';
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+    document.getElementById('adminContent').style.filter = 'none';
+    document.getElementById('adminContent').style.pointerEvents = 'auto';
+  }
+
+  // Show modal automatically if not logged in
+  window.addEventListener('load', showModal);
+
+  close.onclick = closeModal;
+  overlay.onclick = closeModal;
+}
+
+</script>
+
+</body>
+</html>

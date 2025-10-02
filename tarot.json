@@ -1,13 +1,14 @@
 [
-    
     {
-    "date": "2025-09-30",
-    "card": "the fool"
-},
-
-{
-    "date": "2025-10-01",
-    "card": "four of swords"
-}
-
+        "date": "2025-09-30",
+        "card": "the fool"
+    },
+    {
+        "date": "2025-10-01",
+        "card": "four of swords"
+    },
+    {
+        "date": "2025-10-02",
+        "card": "two of cups"
+    }
 ]

@@ -104,6 +104,8 @@ function seekUpdate() {
 loadTrack(track_index);
 
 
+//////////// all of that above was forked
+
 // notepad
 
 function saveNotepad() {
@@ -142,7 +144,7 @@ const colorPicker = document.getElementById('color-picker');
 
 let drawing = false;
 
-// Draw pixels
+// draw pixels
 canvas.addEventListener('mousedown', () => drawing = true);
 canvas.addEventListener('mouseup', () => drawing = false);
 canvas.addEventListener('mouseleave', () => drawing = false);
@@ -156,15 +158,37 @@ canvas.addEventListener('mousemove', function(e) {
     ctx.fillRect(x, y, 10, 10);
 });
 
-// Clear canvas
+// clear canvas
 function clearPixelArt() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// Download as PNG
+// download as a png for transparency
 function downloadPixelArt() {
     const link = document.createElement('a');
     link.download = 'pixel-art.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
 }
+
+// submit to me
+
+function submitPixelArt() {
+    const canvas = document.getElementById("pixelart-canvas");
+    canvas.toBlob(async (blob) => {
+        const formData = new FormData();
+        formData.append("pixelart", blob, "pixelart.png");
+
+        const response = await fetch("/submit_pixelart", {
+            method: "POST",
+            body: formData
+        });
+
+        if (response.ok) {
+            alert("Pixel art submitted successfully!");
+        } else {
+            alert("Failed to submit pixel art.");
+        }
+    });
+}
+

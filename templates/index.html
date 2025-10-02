@@ -111,55 +111,7 @@
   </section>
 
   <hr>
-<!-- this means only a user who is logged in can see this part -->
-  {% if session.get('password') %}
-<details>
-  <!-- editing quotes -->
-  <summary style="cursor:pointer; font-weight:bold; text-align:left; padding-left: 10px;">edit quote roster</summary>
-  <div style="display:flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
-    {% for q in quotes %}
-    <form action="{{ url_for('quotes') }}" method="post" style="display:flex; gap:5px; flex: 1 0 200px; min-width: 200px;">
-      <input type="hidden" name="index" value="{{ loop.index0 }}">
-      <input type="text" name="quote" value="{{ q }}" style="min-width: 135px; max-width: 180px;">
-      <button name="action" value="edit">save</button>
-      <button name="action" value="delete">delete</button>
-    </form>
-    {% endfor %}
-  </div>
-  <form action="{{ url_for('quotes') }}" method="post" style="margin-top: 10px; display:flex; gap:5px; align-items:center;">
-    <input type="text" name="quote" placeholder="new quote" style="min-width: 180px; max-width: 180px;">
-    <button name="action" value="add">add quote</button>
-  </form>
-</details>
-
-<hr>
-<details>
-  <!-- editing tarot, character feeling and last updated -->
-  <summary style="cursor:pointer; font-weight:bold; text-align:right; padding-right: 10px;">edit tarot card, character feeling & last updated</summary>
-  <section class="group-box" style="margin-top:10px;">
-    <div style="display:flex; flex-direction: column; gap: 10px; align-items: flex-end;">
-      <form method="post" style="display:flex; gap:5px; align-items:center; flex-wrap: wrap;">
-        <input type="text" name="card" placeholder="today's tarot card" style="min-width:200px; max-width:250px;">
-        <input type="hidden" name="form_type" value="tarot">
-        <button type="submit" class="btn" style="width:100px;">set tarot</button>
-      </form>
-      <form method="post" style="display:flex; gap:5px; align-items:center; flex-wrap: wrap;">
-        <input type="text" name="character" placeholder="character name" style="min-width:200px; max-width:250px;">
-        <input type="hidden" name="form_type" value="feeling">
-        <button type="submit" class="btn" style="width:100px;">set feeling</button>
-      </form>
-      <form method="post" action="{{ url_for('set_last_updated') }}" style="display:flex; gap:5px; align-items:center;">
-      <input type="text" name="last_date" placeholder="last updated on" value="{{ last_updated.date or '' }}" style="width:200px;">
-      <button type="submit" class="btn" style="width:100px;">set last updated</button>
-    </form>
-    </div>
-  </section>
-</details>
-
-
-<hr>
-{% endif %}
-
+  
 <!-- this is the tarot history -->
   <div style="display:flex">
   <div style="text-align:left; padding-left: 10px;">
@@ -190,6 +142,11 @@
     <form action="https://raincandy.lol" method="get" target="_blank">
       <button type="submit" class="btn">main website</button>
     </form>
+      {% if session.get('password') %}
+    <form action="{{ url_for('admin') }}" method="get" target="_blank">
+  <button type="submit" class="btn">admin panel</button>
+</form>
+{% endif %}
   </div>
 </div>
 </div>
