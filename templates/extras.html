@@ -139,7 +139,7 @@
     {% endif %}
     <p>i do not like romance, yet i do at the same time. the concept is wonderful, yet the execution horrible. sometimes i will mistake platonic things for romantic / come off as flirtatious when i do not mean to, please tell me if you are uncomfortable or if what youre saying has romantic intentions, i am bad with people!</p>
     <p>i love listening to music more than the ordinary person. seriously, please talk to me about it!! all genres!!! i genre hop!</p>
-    <p>ummm this will probably change alot! wip wip</p>
+    <p>right now this site is pretty hopes and dreams. the code itself is pretty structurally sound and im proud of it, but its current hosting set up im not (no actual database) and i dont wanna rebuild it with rust so.. :3!</p>
     <div style="display:flex;flex-direction: row;">
     <img src="https://file.garden/aBi0tvXzESnPXzr_/Metalwag.webp" style="width:45px;height: 55px;padding-left: 10px;"><p>i do not like to get into arguments or discourse.. if someone has an issue with me they should dm me directly and we can work it out. i don't bite!</p>
     </div>
@@ -163,12 +163,9 @@
 <div class="pixelart-controls">
   <button onclick="clearPixelArt()">Clear</button>
   <button onclick="downloadPixelArt()">Save as PNG</button>
-<button 
-  onclick="submitPixelArt()" 
-  {% if session.get('password') %}disabled{% endif %}>
+<button onclick="submitPixelArt()" disabled>
   Send to Admin
 </button>
-
 </div>
   </div>
 </div>

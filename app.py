@@ -83,7 +83,7 @@ def load_quotes():
             if isinstance(data, list):
                 return data
             else:
-                # fallback to default if file is corrupted
+# fallback to default if file is corrupted
                 return default_quotes.copy()
     return default_quotes.copy()
 
@@ -323,6 +323,7 @@ def logout():
     session.pop('password', None)
     return redirect(url_for("index"))
 
+# set character feeling
 @app.route("/set_feeling", methods=["POST"])
 def set_feeling():
     if not session.get('password'):
@@ -336,7 +337,7 @@ def set_feeling():
     
     return jsonify({"success": False, "error": "No character provided"}), 400
 
-
+# make quotes editable
 @app.route("/quotes", methods=["POST"], endpoint='quotes')
 def edit_quotes():
     if not session.get('password'):
@@ -363,6 +364,7 @@ def edit_quotes():
     return redirect(url_for("index"))
 
 
+# sets the admin image
 @app.route("/set_admin_meme", methods=["POST"])
 def set_admin_meme():
     if not session.get("password"):
@@ -380,7 +382,7 @@ def set_admin_meme():
     save_admin_meme(meme)
     return redirect(url_for("admin"))
 
-
+# sets the tarot card
 @app.route("/set_tarot", methods=["POST"])
 def set_tarot():
     if not session.get('password'):
@@ -395,7 +397,7 @@ def set_tarot():
     
     return jsonify({"success": False, "error": "No card provided"}), 400
 
-
+# submits pixel art
 @app.route("/submit_pixelart", methods=["POST"])
 def submit_pixelart():
     if "pixelart" not in request.files:
@@ -406,17 +408,18 @@ def submit_pixelart():
     file.save(os.path.join(UPLOAD_FOLDER, filename))
     return "OK", 200
 
+# admin panel handler
 @app.route("/admin", endpoint="admin")
 def admin():
-    # Require password login
+    # require password login
     if not session.get("password"):
         return redirect(url_for("index"))
 
-    # --- pixel art submissions ---
+    # pixel art submissions
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     files = [f for f in os.listdir(UPLOAD_FOLDER) if f.endswith((".png", ".jpg", ".jpeg", ".gif"))]
 
-    # --- load data for dashboard ---
+    # load data for admin panel
     sections = load_sections()
     todos = load_todos()
     quotes = load_quotes()
@@ -440,11 +443,12 @@ def admin():
         meme=meme,
     )
 
+# submits submissions to the admin panel
 @app.route("/submissions/<filename>")
 def get_submission(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
 
-
+# run it all
 if __name__ == "__main__":
     app.run(debug=True)

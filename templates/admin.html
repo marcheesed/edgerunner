@@ -28,6 +28,7 @@
         {% for file in files %}
           <div style="margin-bottom:10px;">
             <img src="{{ url_for('get_submission', filename=file) }}" width="160">
+            <img src="{{ url_for('get_submission', filename=file) }}" width="160">
             <p>{{ file }}</p>
           </div>
         {% endfor %}

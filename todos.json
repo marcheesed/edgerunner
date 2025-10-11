@@ -12,7 +12,19 @@
         "done": false
     },
     {
-        "task": "finish this site.",
+        "task": "start therapy",
+        "done": false
+    },
+    {
+        "task": "finish raincandy rework",
+        "done": false
+    },
+    {
+        "task": "finish metal sonic shrine!",
+        "done": false
+    },
+    {
+        "task": "get this site properly sorted",
         "done": false
     }
 ]
